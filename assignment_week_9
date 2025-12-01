@@ -1,0 +1,38 @@
+def process_logs(logs, min_level):
+    result = []
+    for log in logs:
+        if log == "":
+            continue
+
+        parts = log.split(" ")
+        if len(parts)<5:
+            continue
+
+        timelaps = parts[1][0:5]
+        level = parts[2][1:-1]
+        message = " ".join(parts[4:])
+        
+        new_list = ["INFO", "WARNING", "ERROR"]
+        level_index = new_list.index(level)   
+        min_index = new_list.index(min_level)
+
+        if level_index >= min_index:
+            summary = f"{level} ({timelaps}): {message}"
+            result.append(summary)
+    return result
+
+log_data = [
+    "2023-10-01 08:30:00 [INFO] - User 'admin' logged in.",
+    "2023-10-01 08:31:15 [INFO] - Service started successfully.",
+    "2023-10-01 09:05:22 [WARNING] - Disk space is running low.",
+    "",
+    "2023-10-01 09:15:00 [ERROR] - Database connection failed.",
+    "2023-10-01 09:15:05 [ERROR] - Failed to process user request.",
+    "2023-10-01 10:00:45 [INFO] - User 'guest' logged out."
+]       
+warnings_and_errors = process_logs(log_data, "WARNING")
+print(warnings_and_errors)
+errors_only = process_logs(log_data, "ERROR")
+print(errors_only)
+all_logs = process_logs(log_data, "INFO")
+print(all_logs)
