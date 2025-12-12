@@ -1,0 +1,30 @@
+def parse_game_log(score_log):
+    game_dic = {}
+    for line in score_log:
+        player, play_type, points = line.split("#")
+        points = int(points)
+        if player in game_dic:
+            game_dic[player].append((play_type,points))
+        else:
+            game_dic[player] = [(play_type, points)]
+    return game_dic
+
+def print_player_totals(game_dic):
+    for player, plays in game_dic.items():  
+        total_points = 0
+        for play_type, points in plays:
+            total_points +=points
+        print(f"{player}: {total_points} points total")
+       
+score_log = [
+    "Jordan#Dunk#2",
+    "Curry#3Pointer#3",
+    "Jordan#FreeThrow#1",
+    "LeBron#Layup#2",
+    "Curry#Layup#2",
+    "LeBron#3Pointer#3"
+]
+
+
+game_dic = parse_game_log(score_log)
+print_player_totals(game_dic)
